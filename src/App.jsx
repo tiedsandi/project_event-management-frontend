@@ -1,3 +1,7 @@
+import EventsPage, {
+  HydrateFallback as eventsHydrate,
+  loader as eventsLoader,
+} from "./pages/Events";
 import LoginPage, { action as loginAction } from "./pages/Login";
 import { RouterProvider, createBrowserRouter } from "react-router";
 
@@ -14,7 +18,12 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />,
       },
-      { path: "event", element: <h1>Event</h1> },
+      {
+        path: "events",
+        element: <EventsPage />,
+        loader: eventsLoader,
+        HydrateFallback: eventsHydrate,
+      },
     ],
   },
   {

@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   return (
-    <div className="py-3 mx-auto max-w-7xl">
+    <div className="p-4 mx-auto max-w-[1440px]">
       <Header />
-      <main className="p-4">
+      <main>
         <Outlet />
       </main>
     </div>

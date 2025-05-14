@@ -1,60 +1,103 @@
 import { Link, NavLink } from "react-router-dom";
-
-import { useState } from "react";
+import { Menu, X } from "lucide-react"; // pastikan lucide-react sudah diinstall
+import { useEffect, useState } from "react";
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
+  const [isLogin, setIsLogin] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // const userData = JSON.parse(localStorage.getItem("user") || "{}");
-  // const isAdmin = userData.role === "admin";
+  useEffect(() => {
+    setIsLogin(!!localStorage.getItem("token"));
+  }, []);
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
     setIsLogin(false);
-    // navigate("/login");
+    setMenuOpen(false);
   };
-  return (
-    <header className="flex items-center justify-between p-4 border-gray-400 rounded-4xl border-1">
-      <Link to={"/"}>
-        <img src="Ement-full.svg" alt="logo" className="w-28" />
-      </Link>
-      <nav className="flex gap-6 font-medium">
-        <NavLink
-          to={"/event"}
-          // className={({ isActive }) =>
-          //   (isActive ? "text-gray-500" : undefined) + " hover:text-gray-500"
-          // }
-          // className={({ isActive }) =>
-          //   `${isActive ? "text-gray-500" : ""} hover:text-gray-500`
-          // }
-          className={({ isActive }) =>
-            isActive
-              ? "text-blue-600 font-semibold border-b-2 border-blue-600"
-              : "text-gray-600 hover:text-blue-600"
-          }
-        >
-          Events
-        </NavLink>
-        <NavLink
-          to={"/my-events"}
-          className={({ isActive }) =>
-            isActive
-              ? "text-blue-600 font-semibold border-b-2 border-blue-600"
-              : "text-gray-600 hover:text-blue-600"
-          }
-        >
-          My Events
-        </NavLink>
-      </nav>
 
-      {isLogin ? (
-        <button onClick={logoutHandler} className="font-medium text-red-600">
-          Logout
-        </button>
-      ) : (
-        <Link to={"/login"} className="font-medium text-blue-600">
-          Login
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const navLinkStyle = ({ isActive }) =>
+    isActive
+      ? "text-blue-600 font-semibold border-b-2 border-blue-600"
+      : "text-gray-600 hover:text-blue-600";
+
+  return (
+    <header className="border-b border-gray-300">
+      <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
+        <Link to={"/"}>
+          <img src="Ement-full.svg" alt="logo" className="w-28" />
         </Link>
+
+        {/* Desktop Nav */}
+        <nav className="hidden gap-6 font-medium md:flex">
+          <NavLink to="/events" className={navLinkStyle}>
+            Events
+          </NavLink>
+          <NavLink to="/my-events" className={navLinkStyle}>
+            My Events
+          </NavLink>
+        </nav>
+
+        <div className="hidden md:flex">
+          {isLogin ? (
+            <button
+              onClick={logoutHandler}
+              className="font-medium text-red-600"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link to="/login" className="font-medium text-blue-600">
+              Login
+            </Link>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button className="md:hidden" onClick={toggleMenu}>
+          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {menuOpen && (
+        <div className="flex justify-end px-4 pb-4 md:hidden">
+          <div className="space-y-2 text-right">
+            <div className="flex items-end gap-2">
+              <NavLink
+                to="/events"
+                className={navLinkStyle}
+                onClick={toggleMenu}
+              >
+                Events
+              </NavLink>
+              <NavLink
+                to="/my-events"
+                className={navLinkStyle}
+                onClick={toggleMenu}
+              >
+                My Events
+              </NavLink>
+            </div>
+            {isLogin ? (
+              <button
+                onClick={logoutHandler}
+                className="font-medium text-red-600"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                onClick={toggleMenu}
+                className="font-medium text-blue-600"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+        </div>
       )}
     </header>
   );
