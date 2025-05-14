@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
-import { redirect } from "react-router-dom";
+
 import LoginForm from "../components/LoginForm";
+import { redirect } from "react-router-dom";
 
 function LoginPage() {
   return <LoginForm />;
@@ -27,9 +28,21 @@ export async function action({ request }) {
   );
 
   const resData = await response.json();
-  const token = resData.token;
-  localStorage.setItem("token", token);
-  // console.log(resData);
 
+  if (!response.ok) {
+    if (resData.errors && Array.isArray(resData.errors)) {
+      return new Response(JSON.stringify({ error: resData.errors[0].msg }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(JSON.stringify({ error: resData.message }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  localStorage.setItem("token", resData.token);
   return redirect("/");
 }

@@ -1,8 +1,9 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
-
-import MainLayout from "./components/layouts/MainLayout";
-import AuthLayout from "./components/layouts/AuthLayout";
 import LoginPage, { action as loginAction } from "./pages/Login";
+import { RouterProvider, createBrowserRouter } from "react-router";
+
+import AuthLayout from "./components/layouts/AuthLayout";
+import HomePage from "./pages/Home";
+import MainLayout from "./components/layouts/MainLayout";
 
 const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1 className="text-3xl font-bold underline">Hello world!</h1>,
+        element: <HomePage />,
       },
       { path: "event", element: <h1>Event</h1> },
     ],
