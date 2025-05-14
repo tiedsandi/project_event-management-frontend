@@ -1,12 +1,13 @@
+import Header from "../Header";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   return (
-    <>
-      <h1>Navbar</h1>
-      <main>
+    <div className="py-3 mx-auto max-w-7xl">
+      <Header />
+      <main className="p-4">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 }
