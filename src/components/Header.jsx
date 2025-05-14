@@ -5,6 +5,9 @@ import { useState } from "react";
 export default function Header() {
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
 
+  // const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  // const isAdmin = userData.role === "admin";
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
     setIsLogin(false);

@@ -43,6 +43,32 @@ export async function action({ request }) {
     });
   }
 
-  localStorage.setItem("token", resData.token);
+  const token = resData.token;
+  localStorage.setItem("token", token);
+
+  const userResponse = await fetch(
+    "https://projectevent-management-backend-production.up.railway.app/users/me",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const userData = await userResponse.json();
+
+  if (!userResponse.ok) {
+    return new Response(
+      JSON.stringify({ error: "Gagal mengambil data user." }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+  // console.log(userData);
+  localStorage.setItem("user", JSON.stringify(userData));
+
   return redirect("/");
 }

@@ -1,9 +1,17 @@
 import { Form, Link, useActionData } from "react-router-dom";
 
+import { useState } from "react";
+
 const LoginForm = () => {
   const actionData = useActionData();
   // console.dir(actionData);
   // console.log(JSON.stringify(actionData, null, 2));
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <Form method="post">
@@ -12,16 +20,15 @@ const LoginForm = () => {
       </h2>
 
       {actionData?.error && (
-        <div className="mb-4 text-red-600 text-sm text-center font-medium">
+        <div className="mb-4 text-sm font-medium text-center text-red-600">
           {actionData.error}
         </div>
       )}
 
-      {/* input email */}
       <div className="mb-4">
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block mb-1 text-sm font-medium text-gray-700"
         >
           Email
         </label>
@@ -34,35 +41,41 @@ const LoginForm = () => {
         />
       </div>
 
-      {/* input password */}
-      <div className="mb-6">
+      <div className="relative mb-6">
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block mb-1 text-sm font-medium text-gray-700"
         >
           Password
         </label>
         <input
           id="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+          className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm"
         />
+        <button
+          type="button"
+          onClick={togglePassword}
+          className="absolute text-sm text-gray-500 right-3 top-9"
+        >
+          {showPassword ? "🙈" : "👁️"}
+        </button>
       </div>
 
       <button
         type="submit"
-        className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
+        className="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700"
       >
         Login
       </button>
 
-      <p className="mt-4 text-center text-sm text-gray-600">
+      <p className="mt-4 text-sm text-center text-gray-600">
         Belum punya akun?{" "}
         <Link
           to="/register"
-          className="text-blue-600 hover:underline font-medium"
+          className="font-medium text-blue-600 hover:underline"
         >
           Daftar di sini
         </Link>
