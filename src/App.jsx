@@ -11,6 +11,7 @@ import EventsPage, {
   HydrateFallback as eventsHydrate,
   loader as eventsLoader,
 } from "./pages/Events";
+import HomePage, { loaderHome } from "./pages/Home";
 import LoginPage, { action as loginAction } from "./pages/Login";
 import MyEventsPage, {
   action as eventAction,
@@ -20,7 +21,6 @@ import MyEventsPage, {
 import { RouterProvider, createBrowserRouter } from "react-router";
 
 import AuthLayout from "./components/layouts/AuthLayout";
-import HomePage from "./pages/Home";
 import MainLayout from "./components/layouts/MainLayout";
 
 const router = createBrowserRouter([
@@ -31,6 +31,8 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+        loader: loaderHome,
+        HydrateFallback: eventsHydrate,
       },
       {
         path: "events",

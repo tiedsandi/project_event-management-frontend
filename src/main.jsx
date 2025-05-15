@@ -9,10 +9,15 @@ createRoot(document.getElementById("root")).render(
     <App />
   </StrictMode>
 );
+//  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
+// const userData = JSON.parse(localStorage.getItem("user") || "{}");
+// console.dir(userData);
+
+// const isAdmin = userData.role === "admin";
 
 // TODO Frontend
 // [x] Logout otomatis
-// [ ] Home (menampilkan jumlah eventnya, menampilkan event terbaru"admin" menampilkan event yang daftar dan terdekat dengan hari ini"user")
+// [x] Home (menampilkan jumlah eventnya, menampilkan event terbaru"admin" menampilkan event yang daftar dan terdekat dengan hari ini"user")
 // [ ] Register
 // [ ] User Table create user admin
 // [ ] rapihin readme,
