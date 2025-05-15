@@ -1,3 +1,7 @@
+import EditEventPage, {
+  editEventLoader,
+  updateEventAction,
+} from "./components/EditEventPage";
 import EventPage, {
   deleteEventAction,
   HydrateFallback as eventHydrate,
@@ -50,6 +54,12 @@ const router = createBrowserRouter([
       {
         path: "/events/:idEvent/delete",
         action: deleteEventAction,
+      },
+      {
+        path: "/events/:idEvent/edit",
+        element: <EditEventPage />, // <- Komponen halaman edit
+        loader: editEventLoader,
+        action: updateEventAction,
       },
     ],
   },
