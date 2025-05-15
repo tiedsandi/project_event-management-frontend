@@ -19,7 +19,7 @@ createRoot(document.getElementById("root")).render(
 // [x] Logout otomatis
 // [x] Home (menampilkan jumlah eventnya, menampilkan event terbaru"admin" menampilkan event yang daftar dan terdekat dengan hari ini"user")
 // [ ] Register
-// [ ] User Table create user admin
+// [.] User Table create user admin
 // [ ] rapihin readme,
 
 // TODO General

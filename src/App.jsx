@@ -18,6 +18,7 @@ import MyEventsPage, {
   HydrateFallback as myEventsHydrate,
   loader as myEventsLoader,
 } from "./pages/MyEvents";
+import RegisterPage, { registerAction } from "./pages/Register";
 import { RouterProvider, createBrowserRouter } from "react-router";
 
 import AuthLayout from "./components/layouts/AuthLayout";
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/events/:idEvent/edit",
-        element: <EditEventPage />, // <- Komponen halaman edit
+        element: <EditEventPage />,
         loader: editEventLoader,
         action: updateEventAction,
       },
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       { path: "login", element: <LoginPage />, action: loginAction },
-      { path: "register", element: <h1>register</h1> },
+      { path: "register", element: <RegisterPage />, action: registerAction },
     ],
   },
 ]);
