@@ -12,6 +12,7 @@ export default function Header() {
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsLogin(false);
     setMenuOpen(false);
   };
@@ -27,10 +28,9 @@ export default function Header() {
     <header className="border-b border-gray-300">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         <Link to={"/"}>
-          <img src="Ement-full.svg" alt="logo" className="w-28" />
+          <img src="/Ement-full.svg" alt="logo" className="w-28" />
         </Link>
 
-        {/* Desktop Nav */}
         <nav className="hidden gap-6 font-medium md:flex">
           <NavLink to="/events" className={navLinkStyle}>
             Events

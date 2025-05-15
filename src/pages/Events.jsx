@@ -1,5 +1,10 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 import { useEffect } from "react";
 
@@ -34,7 +39,8 @@ export default function EventsPage() {
         <>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
-              <div
+              <Link
+                to={`/events/${event._id}`}
                 key={event._id}
                 className="overflow-hidden transition-shadow duration-200 bg-white shadow-md rounded-2xl hover:shadow-lg"
               >
@@ -58,11 +64,10 @@ export default function EventsPage() {
                     <span className="block">👥 Kuota: {event.maximum}</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
-          {/* Pagination Controls */}
           <div className="flex justify-center mt-8 space-x-4 items-center">
             <button
               onClick={() => goToPage(currentPage - 1)}

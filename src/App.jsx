@@ -1,3 +1,7 @@
+import EventPage, {
+  HydrateFallback as eventHydrate,
+  loader as eventLoader,
+} from "./pages/Event";
 import EventsPage, {
   HydrateFallback as eventsHydrate,
   loader as eventsLoader,
@@ -23,6 +27,12 @@ const router = createBrowserRouter([
         element: <EventsPage />,
         loader: eventsLoader,
         HydrateFallback: eventsHydrate,
+      },
+      {
+        path: "events/:idEvent",
+        element: <EventPage />,
+        loader: eventLoader,
+        HydrateFallback: eventHydrate,
       },
     ],
   },
