@@ -32,12 +32,14 @@ export default function Header() {
         </Link>
 
         <nav className="hidden gap-6 font-medium md:flex">
-          <NavLink to="/events" className={navLinkStyle}>
+          <NavLink to="/events" className={navLinkStyle} end>
             Events
           </NavLink>
-          <NavLink to="/my-events" className={navLinkStyle}>
-            My Events
-          </NavLink>
+          {isLogin && (
+            <NavLink to="/my-events" className={navLinkStyle}>
+              My Events
+            </NavLink>
+          )}
         </nav>
 
         <div className="hidden md:flex">
@@ -72,13 +74,16 @@ export default function Header() {
               >
                 Events
               </NavLink>
-              <NavLink
-                to="/my-events"
-                className={navLinkStyle}
-                onClick={toggleMenu}
-              >
-                My Events
-              </NavLink>
+              {isLogin && (
+                <NavLink
+                  to="/my-events"
+                  className={navLinkStyle}
+                  onClick={toggleMenu}
+                  end
+                >
+                  My Events
+                </NavLink>
+              )}
             </div>
             {isLogin ? (
               <button
