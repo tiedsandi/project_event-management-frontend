@@ -2,6 +2,8 @@ import { Link, redirect, useLoaderData, useSubmit } from "react-router-dom";
 import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { getAuthToken } from "../utils/auth";
+
 export default function EventPage() {
   const { event, isRegistered, userId } = useLoaderData();
 
@@ -23,7 +25,7 @@ export default function EventPage() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getAuthToken();
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
 
     setIsLogin(!!token);
@@ -101,7 +103,7 @@ export default function EventPage() {
 }
 
 async function loadEvent(id) {
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
   const userData = JSON.parse(localStorage.getItem("user") || "{}");
   const userId = userData.id || userData._id || null;
 
@@ -154,7 +156,7 @@ export function HydrateFallback() {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function deleteEventAction({ params }) {
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
   const { idEvent } = params;
 
   const response = await fetch(

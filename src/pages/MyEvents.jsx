@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import EventForm from "../components/EventForm";
 import Modal from "../components/Modal";
+import { getAuthToken } from "../utils/auth";
 
 /* eslint-disable react-refresh/only-export-components */
 export default function MyEventsPage() {
@@ -84,7 +85,7 @@ export default function MyEventsPage() {
 }
 
 async function loadMyEvent() {
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
 
   const response = await fetch(
     `https://projectevent-management-backend-production.up.railway.app/events/my-events`,
@@ -115,7 +116,7 @@ export function HydrateFallback() {
 }
 
 export async function action({ request }) {
-  const token = localStorage.getItem("token"); // or from cookies
+  const token = getAuthToken();
   const formData = await request.formData();
 
   // console.log(formData);

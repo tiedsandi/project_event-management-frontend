@@ -2,19 +2,23 @@ import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // pastikan lucide-react sudah diinstall
 import { useEffect, useState } from "react";
 
+import { getAuthToken } from "../utils/auth";
+
 export default function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    setIsLogin(!!localStorage.getItem("token"));
+    setIsLogin(!!getAuthToken());
   }, []);
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("expiration");
     setIsLogin(false);
     setMenuOpen(false);
+    window.location.reload();
   };
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);

@@ -67,8 +67,11 @@ export async function action({ request }) {
       }
     );
   }
-  // console.log(userData);
   localStorage.setItem("user", JSON.stringify(userData));
+
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 24);
+  localStorage.setItem("expiration", expiration.toISOString());
 
   return redirect("/");
 }

@@ -8,6 +8,8 @@ import {
   useNavigation,
 } from "react-router-dom";
 
+import { getAuthToken } from "../utils/auth";
+
 export default function EditEventPage() {
   const { event } = useLoaderData();
   const navigation = useNavigation();
@@ -110,7 +112,7 @@ export async function editEventLoader({ params }) {
 }
 
 export async function updateEventAction({ request, params }) {
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
   const formData = await request.formData();
 
   const response = await fetch(
