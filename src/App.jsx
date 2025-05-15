@@ -1,4 +1,5 @@
 import EventPage, {
+  deleteEventAction,
   HydrateFallback as eventHydrate,
   loader as eventLoader,
 } from "./pages/Event";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         action: eventAction,
         loader: myEventsLoader,
         HydrateFallback: myEventsHydrate,
+      },
+      {
+        path: "/events/:idEvent/delete",
+        action: deleteEventAction,
       },
     ],
   },

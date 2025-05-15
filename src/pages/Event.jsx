@@ -1,13 +1,26 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, redirect, useLoaderData, useSubmit } from "react-router-dom";
+import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-
-import { Pencil } from "lucide-react";
 
 export default function EventPage() {
   const { event, isRegistered, userId } = useLoaderData();
 
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const submit = useSubmit();
+
+  function handleDelete() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this event?"
+    );
+    if (confirmed) {
+      submit(null, {
+        method: "delete",
+        action: `/events/${event._id}/delete`,
+      });
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,13 +65,22 @@ export default function EventPage() {
             Login to order
           </Link>
         ) : isCreator ? (
-          <Link
-            to={`/events/${event._id}/edit`}
-            className="inline-flex items-center gap-2 px-4 py-2 text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
-          >
-            <Pencil size={16} />
-            Edit
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              to={`/events/${event._id}/edit`}
+              className="inline-flex items-center gap-2 px-4 py-2 text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
+            >
+              <Pencil size={16} />
+              Edit
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="inline-flex items-center gap-2 px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
+            >
+              <Trash2 size={16} />
+              Delete
+            </button>
+          </div>
         ) : isAdmin ? (
           <></>
         ) : isRegistered ? (
@@ -128,4 +150,29 @@ export async function loader({ params }) {
 
 export function HydrateFallback() {
   return <p>Loading Event...</p>;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function deleteEventAction({ params }) {
+  const token = localStorage.getItem("token");
+  const { idEvent } = params;
+
+  const response = await fetch(
+    `https://projectevent-management-backend-production.up.railway.app/events/${idEvent}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    return new Response(
+      JSON.stringify({ error: "Failed to delete the event." }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
+  return redirect("/my-events");
 }
