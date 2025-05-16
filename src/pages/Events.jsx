@@ -20,7 +20,9 @@ export default function EventsPage() {
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   const goToPage = (newPage) => {
-    setSearchParams({ page: newPage });
+    if (newPage >= 1 && newPage <= totalPages) {
+      setSearchParams({ page: newPage });
+    }
   };
 
   useEffect(() => {
@@ -29,62 +31,105 @@ export default function EventsPage() {
     }
   }, [currentPage, navigate, page]);
 
+  const getEventStatus = (event) => {
+    const now = new Date();
+    const eventDate = new Date(event.date);
+    const isExpired = eventDate < now;
+    const isFull = event.registerCount >= event.maximum;
+
+    if (isExpired) return { label: "Expired", color: "bg-gray-400 text-white" };
+    if (isFull) return { label: "Full", color: "bg-red-500 text-white" };
+    return { label: "Available", color: "bg-green-500 text-white" };
+  };
+
   return (
-    <div className="px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold text-center">Daftar Event</h1>
+    <div className="px-4 py-4 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold text-center mb-4">Browse Events</h1>
 
       {events.length === 0 ? (
-        <p className="text-gray-500 text-center">Tidak ada event tersedia.</p>
+        <p className="text-gray-500 text-center">
+          No events available at the moment.
+        </p>
       ) : (
         <>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {events.map((event) => (
-              <Link
-                to={`/events/${event._id}`}
-                key={event._id}
-                className="overflow-hidden transition-shadow duration-200 bg-white shadow-md rounded-2xl hover:shadow-lg"
-              >
-                <img
-                  src={event.imageUrl}
-                  alt={event.title}
-                  className="object-cover w-full h-48"
-                />
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold text-gray-800">
-                    {event.title}
-                  </h2>
-                  <p className="mb-2 text-sm text-gray-500">
-                    {new Date(event.date).toLocaleDateString("id-ID")}
-                  </p>
-                  <p className="mb-2 text-sm text-gray-700">
-                    {event.description}
-                  </p>
-                  <div className="text-sm text-gray-600">
-                    <span className="block">📍 {event.location}</span>
-                    <span className="block">👥 Kuota: {event.maximum}</span>
+            {events.map((event) => {
+              const status = getEventStatus(event);
+
+              return (
+                <Link
+                  to={`/events/${event._id}`}
+                  key={event._id}
+                  className="relative overflow-hidden bg-white rounded-2xl shadow hover:shadow-lg transition group"
+                >
+                  <img
+                    src={event.imageUrl}
+                    alt={event.title}
+                    className="w-full h-48 object-cover"
+                  />
+
+                  {/* Status Badge */}
+                  <div
+                    className={`absolute top-2 right-2 px-3 py-1 text-xs font-semibold rounded-full ${status.color}`}
+                  >
+                    {status.label}
                   </div>
-                </div>
-              </Link>
-            ))}
+
+                  <div className="p-4 space-y-2">
+                    <h2 className="text-xl font-semibold text-gray-800 truncate">
+                      {event.title}
+                    </h2>
+
+                    <p className="text-sm text-gray-500">
+                      📅{" "}
+                      {new Date(event.date).toLocaleDateString("en-US", {
+                        weekday: "short",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </p>
+
+                    <p className="text-sm text-gray-600 line-clamp-2">
+                      {event.description}
+                    </p>
+
+                    <div className="text-sm text-gray-600">
+                      <span>📍 {event.location}</span>
+                      <br />
+                      <span>
+                        👥 {event.registerCount ?? 0}/{event.maximum}{" "}
+                        Participants
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
-          <div className="flex justify-center mt-8 space-x-4 items-center">
+          {/* Pagination */}
+          <div className="flex justify-center items-center gap-4 mt-8">
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="p-2 rounded-full hover:bg-gray-200 disabled:opacity-30"
+              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40"
+              title="Previous page"
             >
-              <ChevronLeft />
+              <ChevronLeft className="w-5 h-5" />
             </button>
+
             <span className="text-gray-700 font-medium">
-              Halaman {currentPage} dari {totalPages}
+              Page {currentPage} of {totalPages}
             </span>
+
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-full hover:bg-gray-200 disabled:opacity-30"
+              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40"
+              title="Next page"
             >
-              <ChevronRight />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </>
@@ -112,12 +157,11 @@ async function loadEvents(page) {
 export async function loader({ request }) {
   const url = new URL(request.url);
   const page = url.searchParams.get("page") || 1;
-
   const events = await loadEvents(page);
 
   return { events };
 }
 
 export function HydrateFallback() {
-  return <p>Loading Events...</p>;
+  return <p className="text-center text-gray-500 py-8">Loading events...</p>;
 }

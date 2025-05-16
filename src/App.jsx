@@ -22,12 +22,14 @@ import RegisterPage, { registerAction } from "./pages/Register";
 import { RouterProvider, createBrowserRouter } from "react-router";
 
 import AuthLayout from "./components/layouts/AuthLayout";
+import ErrorPage from "./pages/Error";
 import MainLayout from "./components/layouts/MainLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

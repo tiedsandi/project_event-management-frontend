@@ -16,10 +16,6 @@ createRoot(document.getElementById("root")).render(
 // const isAdmin = userData.role === "admin";
 
 // TODO Frontend
-// [x] Logout otomatis
-// [x] Home (menampilkan jumlah eventnya, menampilkan event terbaru"admin" menampilkan event yang daftar dan terdekat dengan hari ini"user")
-// [ ] Register
-// [.] User Table create user admin
 // [ ] rapihin readme,
 
 // TODO General
