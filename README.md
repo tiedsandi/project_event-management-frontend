@@ -28,7 +28,7 @@
 
 ### 📈 Demo
 
-[Ement App](https://emenet.netlify.app)
+[Ement App](https://ement.netlify.app/)
 
 ---
 
