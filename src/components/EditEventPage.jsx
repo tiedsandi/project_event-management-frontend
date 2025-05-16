@@ -20,7 +20,7 @@ export default function EditEventPage() {
     <Form
       method="post"
       encType="multipart/form-data"
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-4 mt-6"
     >
       {actionData?.error && (
         <p className="text-sm text-red-500">{actionData.error}</p>

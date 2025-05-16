@@ -31,7 +31,7 @@ export default function Modal({ open, children, onClose }) {
 
   return createPortal(
     <dialog
-      className="m-auto min-w-xl rounded-xl p-6 shadow-lg backdrop:bg-black/50"
+      className="m-auto md:min-w-xl rounded-xl p-6 shadow-lg backdrop:bg-black/50"
       ref={dialog}
       onClose={onClose}
     >

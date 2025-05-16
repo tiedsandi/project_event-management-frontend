@@ -11,7 +11,7 @@ const RegisterForm = () => {
   return (
     <Form method="post">
       <h2 className="text-2xl font-bold text-center text-gray-800">
-        Daftar Akun Baru
+        Create a New Account
       </h2>
 
       {actionData?.error && (
@@ -25,7 +25,7 @@ const RegisterForm = () => {
           htmlFor="name"
           className="block mb-1 text-sm font-medium text-gray-700"
         >
-          Nama
+          Name
         </label>
         <input
           id="name"
@@ -70,6 +70,7 @@ const RegisterForm = () => {
           type="button"
           onClick={togglePassword}
           className="absolute text-sm text-gray-500 right-3 top-9"
+          aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? "🙈" : "👁️"}
         </button>
@@ -97,13 +98,13 @@ const RegisterForm = () => {
         type="submit"
         className="w-full px-4 py-2 font-semibold text-white bg-green-600 rounded-md hover:bg-green-700"
       >
-        Daftar
+        Register
       </button>
 
       <p className="mt-4 text-sm text-center text-gray-600">
-        Sudah punya akun?{" "}
+        Already have an account?{" "}
         <Link to="/login" className="font-medium text-blue-600 hover:underline">
-          Login di sini
+          Login here
         </Link>
       </p>
     </Form>

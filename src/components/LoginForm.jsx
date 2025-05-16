@@ -16,7 +16,7 @@ const LoginForm = () => {
   return (
     <Form method="post">
       <h2 className="text-2xl font-bold text-center text-gray-800">
-        Login ke Akun Anda
+        Login to Your Account
       </h2>
 
       {actionData?.error && (
@@ -59,6 +59,7 @@ const LoginForm = () => {
           type="button"
           onClick={togglePassword}
           className="absolute text-sm text-gray-500 right-3 top-9"
+          aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? "🙈" : "👁️"}
         </button>
@@ -72,12 +73,12 @@ const LoginForm = () => {
       </button>
 
       <p className="mt-4 text-sm text-center text-gray-600">
-        Belum punya akun?{" "}
+        Don’t have an account?{" "}
         <Link
           to="/register"
           className="font-medium text-blue-600 hover:underline"
         >
-          Daftar di sini
+          Register here
         </Link>
       </p>
     </Form>
